@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+    <head>
+        <title>Ресторан Буйок</title>
+        <meta charset=utf-8>
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+        <link rel="shortcut icon" href="favicon/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-title" content="Буйок" />
+        <link rel="manifest" href="favicon/site.webmanifest" />
+    </head>
+    <body>
+    <!--
+        TODO: Добавить отзывы и яндекс карту с расположением
+
+        TODO: Изучить процесс покупки и оформления домена
+              Начать изучать js, писать простейшие скрипты
+              Интегрировать Yandex Maps API через JS
+
+        TODO: Подумать над остальным содержимым сайта, кроме футера с юридической информацией
+              Посмотреть, что необходимо каждому сайту перед хостингом
+
+        TODO: Захостить сайт через гитхаб, проверить UI на телефоне и других устройствах/браузерах
+              Реализовать ночной режим
+    -->
+        <header>
+            <a href="index.html">
+                <img class="restaurant-logo" src="images/logo.png" alt="Buyok Logo">
+            </a>
+            <a class="restaurant-phone" href="tel:+79788786700">+7 (978) 878-67-00</a>
+            <a class="open-menu">Меню</a>
+            <a href="https://vk.com/cafebuyok" target="_blank">
+                <img class="vk-button" src="images/VK Logo.png" alt="VK Logo">
+            </a>
+        </header>
+        <main>
+            <div class="intro-container" id="top">
+               <img class="intro-image" src="images/shrimp.png" alt="shrimp image">
+                <p class="intro-text">
+                    Кафе Буйок предлагает Вам попробовать локальную кухню, отведать свежий улов и насладиться атмосферой Чёрного моря
+                </p>
+            </div>
+            <div class="products-container">
+                <p class="main-text">Наши лучшие позиции </p>
+                <div class="gallery-wrapper">
+                    <button class="gallery-button prev">&#9664;</button>
+
+                    <div class="gallery">
+                        <div class="gallery-item left prev">
+                        </div>
+
+                        <div class="gallery-item center">
+                            <div class="dish-info active">
+                            </div>
+                        </div>
+
+                        <div class="gallery-item right"></div>
+                    </div>
+
+                    <button class="gallery-button next">&#9654;</button>
+                </div>
+            </div>
+
+            <p class="main-text" style="padding: 0">Фото ресторана</p>
+            <div class="photo-gallery-container">
+                <div class="card">
+                    <div class="card__inner">
+                        <picture>
+                            <img src="images/XXXL.webp" alt="Фото ресторана">
+                        </picture>
+
+                        <div class="card-text left-text">
+                            <p>Ресторан доступен под полное бронирование для проведения мероприятий</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__inner">
+                        <picture>
+                            <img src="images/XXXL-2.webp" alt="Фото ресторана">
+                        </picture>
+
+                        <div class="card-text left-text">
+                            <p>В наличии есть свежие морепродукты: гребешки, морские ежи, устрицы, мидии и анодары (по запросу)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__inner">
+                        <picture>
+                            <img src="images/XXXL-3.webp" alt="Летняя терраса">
+                        </picture>
+
+                        <div class="card-text right-text">
+                            <p>Вы можете насладиться приятным теплом и летними лучами солнца на открытой веранде нашего кафе</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__inner">
+                        <picture>
+                            <img src="images/XXXL-4.webp" alt="Фото ресторана">
+                        </picture>
+
+                        <div class="card-text right-text">
+                            <p>Кафе порадует Вас наличием разнообразных украшений, создающих морскую атмосферу</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p class="footer-info">Буйок, пгт. Николаевка, Набережная улица, 10</p>
+            <p class="footer-info" style="margin-left: 24vw">График работы: <time>11:30-23:00</time></p>
+            <hr class="footer-hr">
+            <p class="footer-info">Почта для связи: </p>
+            <a class="footer-info" href="mailto:vbugaichuk@gmail.com">vbugaichuk@gmail.com</a>
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>

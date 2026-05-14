@@ -1,0 +1,636 @@
+a, button {
+    cursor: pointer;
+}
+
+a:any-link {
+    text-decoration: none;
+}
+
+a, p {
+    font-family: Hikasami, TildaSans, sans-serif;
+}
+
+body {
+    background-color: #EDE9DF;
+    margin: 0;
+}
+
+header {
+    height: 8vw;
+
+    background: transparent;
+    backdrop-filter: blur(10px);
+
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 5fr 1fr;
+    grid-gap: 1vw;
+    place-items: center;
+
+    position: fixed;
+    z-index: 2;
+}
+
+.restaurant-logo {
+    width: 70%;
+    margin-left: 1vw;
+    object-fit: contain;
+}
+
+.restaurant-phone {
+    font-size: 3vw;
+    font-weight: 550;
+    color: black;
+}
+
+.vk-button {
+    width: 50%;
+    object-fit: contain;
+    margin-top: 0.5vh;
+}
+
+.intro-container {
+    padding-top: 8vmax;
+    background-color: rgb(242, 92, 5);
+
+    display: grid;
+    grid-template-columns: 11fr 9fr;
+    height: fit-content;
+
+    border-radius: 0 0 50px 50px;
+    z-index: 3;
+}
+
+.intro-image {
+    width: 100%;
+    margin-bottom: 5vh;
+}
+
+.intro-text {
+    font-weight: 600;
+    font-size: 3vw;
+
+    color: #EDE9DF;
+    margin: 0 1.5vw 0 3vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.products-container {
+    background: rgba(242, 92, 5, 0.3);
+    border-radius: 0 0 50px 50px;
+
+    margin-bottom: 3vh;
+    margin-top: -50px;
+}
+
+.main-text {
+    font-weight: 600;
+    font-size: 3vw;
+
+    color: black;
+    padding: 7vmax 0 0;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dish-description {
+    font-weight: 550;
+    font-size: 2vw;
+
+    color: black;
+    margin: 0.5vmax;
+
+    text-align: center;
+}
+
+.gallery-button {
+    border: none;
+
+    color: black;
+    background-color: transparent;
+
+    font-size: 3.5vw;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 150ms ease-in-out;
+}
+
+.gallery-button:hover {
+    color: rgb(242, 92, 5);
+}
+
+.gallery-button:active {
+    opacity: 0.6;
+}
+
+.gallery-wrapper {
+    min-height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
+}
+
+.gallery {
+    position: relative;
+    width: 70vw;
+    height: 40vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-item {
+    position: absolute;
+
+    transition:
+            transform 600ms ease,
+            opacity 600ms ease;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    will-change: transform, opacity;
+}
+
+.gallery-item img {
+    width: 30vw;
+    transition: transform 600ms ease;
+}
+
+.gallery-item.center {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Лево */
+.gallery-item.left {
+    transform: translateX(-20vw) scale(0.7);
+    opacity: 0.5;
+}
+
+/* Право */
+.gallery-item.right {
+    transform: translateX(20vw) scale(0.7);
+    opacity: 0.5;
+}
+
+.gallery-item.left img,
+.gallery-item.right img {
+    transform: scale(0.5);
+}
+
+/* Скрытые */
+.gallery-item.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Информация */
+.dish-info {
+    margin: 2vh 0 6vh 0;
+
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+/* Только у центрального блюда */
+.gallery-item.center .dish-info {
+    opacity: 1;
+}
+
+.restaurant-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: fit-content;
+}
+
+.menu-text {
+    font-weight: 550;
+    font-size: 3vw;
+    color: black;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    text-align: right;
+}
+
+.open-menu {
+    font-size: 3vw;
+    font-weight: 550;
+
+    width: fit-content;
+    height: 50%;
+    margin-left: 35vw;
+    padding: 0.3vh 0.5vw;
+
+    background: transparent;
+    color: black;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    border: 2px solid black;
+    transition-duration: 250ms;
+    transition-property: border-top, border-left, border-bottom, border-right,
+    box-shadow, color, background-color;
+
+}
+
+.open-menu:hover {
+    background: #EDE9DF;
+
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    border-right: 2px solid rgba(0, 0, 0, 0.5);
+
+    box-shadow: rgba(0, 0, 0, 0.4) 0.5vmin 0.5vmin, rgba(0, 0, 0, 0.3) 1vmin 1vmin,
+    rgba(0, 0, 0, 0.2) 1.5vmin 1.5vmin;
+}
+
+.open-menu:active {
+    opacity: 0.6;
+}
+
+footer {
+    width: 100%;
+    height: fit-content;
+
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+
+    background: rgb(242, 92, 5);
+    color: #EDE9DF;
+    margin-top: 5vh;
+}
+
+.footer-info {
+    font-weight: 600;
+    font-size: 2vw;
+    display: inline-flex;
+
+    padding: 2vmin 0 2vmin 3vw;
+
+    margin: 0;
+
+    color: #EDE9DF;
+}
+
+.footer-hr {
+    border: 0.1vw solid #EDE9DF;
+    margin: 0 3vw;
+}
+
+@font-face {
+    font-family: 'Hikasami';
+    src: url('fonts/Hikasami-VF.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Hikasami';
+    src: url('fonts/Hikasami-VF.woff') format('woff');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'TildaSans';
+    src: url('fonts/TildaSans-VF.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'TildaSans';
+    src: url('fonts/TildaSans-VF.woff') format('woff');
+    font-display: swap;
+}
+
+.pdf-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+}
+
+.pdf-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pdf-modal {
+    position: relative;
+    width: min(92vw, 860px);
+    height: min(92vh, 780px);
+
+    background: transparent;
+    border-radius: 16px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    transform: scale(0.93);
+    transition: transform 300ms ease;
+}
+
+.pdf-overlay.active .pdf-modal {
+    transform: scale(1);
+}
+
+/* Toolbar */
+.pdf-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 12px 12px 0 0;
+    flex-shrink: 0;
+}
+
+.pdf-zoom-btn {
+    width: 2rem;
+    height: 2rem;
+
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    font-size: 1.2rem;
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: background 150ms ease, opacity 150ms ease;
+}
+
+.pdf-zoom-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.pdf-zoom-btn:active {
+    opacity: 0.6;
+}
+.pdf-zoom-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.pdf-zoom-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    min-width: 3.5rem;
+    text-align: center;
+}
+
+.pdf-close {
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+
+    background: rgb(242, 92, 5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: opacity 150ms ease;
+}
+
+.pdf-close:hover {
+    opacity: 0.8;
+}
+
+.pdf-close:active {
+    opacity: 0.5;
+}
+
+/* Scrollable canvas area */
+.pdf-canvas-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+
+    background: transparent;
+
+    border-radius: 0 0 12px 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.pdf-canvas-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.pdf-canvas-scroll::-webkit-scrollbar-track {
+background: transparent;
+}
+
+.pdf-canvas-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0 20px;
+
+    background: transparent;
+}
+
+.pdf-page-canvas {
+    display: block;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+    border-radius: 4px;
+
+    background: transparent;
+}
+
+.photo-gallery-container {
+    display: flex;
+
+    width: calc(100% - 10vw);
+    height: 60vmin;
+
+    margin: 0 auto;
+    padding-bottom: 5vmax;
+    padding-top: 0;
+
+    overflow: visible;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    position: relative;
+}
+
+.photo-gallery-container .card {
+    flex: 1 1 1%;
+    position: relative;
+
+    opacity: 0.25;
+
+    transition:
+            flex 600ms cubic-bezier(0.25, 1, 0.5, 1),
+            opacity 250ms ease;
+
+    height: 90%;
+
+    z-index: 1;
+}
+
+.photo-gallery-container .card:hover {
+    flex-basis: 30%;
+    opacity: 1;
+    z-index: 20;
+}
+
+.photo-gallery-container .card.is-active {
+    opacity: 1;
+}
+
+.photo-gallery-container .card__inner {
+    position: relative;
+
+    margin: 0.25rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: visible;
+
+    height: calc(100% - 0.5rem);
+}
+
+.photo-gallery-container .card picture {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+.photo-gallery-container .card picture img {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    border-radius: 25px;
+    border: none;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition:
+            transform 400ms ease,
+            filter 300ms ease;
+}
+
+.card-text {
+     position: absolute;
+
+     top: 50%;
+     transform: translateY(-50%);
+
+     opacity: 0;
+
+     transition:
+             opacity 250ms ease,
+             transform 250ms ease;
+
+     pointer-events: none;
+
+     z-index: 100;
+
+     display: flex;
+     align-items: center;
+
+     width: 30vw;
+
+     overflow: visible;
+ }
+
+.card:hover .card-text {
+    opacity: 1;
+}
+
+.left-text {
+    left: calc(100% + 2vw);
+    justify-content: flex-start;
+}
+
+.right-text {
+    right: calc(100% + 2vw);
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.card-text p {
+    margin: 0;
+
+    color: black;
+
+    font-size: 3vw;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.photo-gallery-container .card:nth-child(2) {
+    margin-top: 2.5%;
+}
+
+.photo-gallery-container .card:nth-child(3) {
+    margin-top: 5%;
+}
+
+
+.photo-gallery-container .card:last-child {
+    margin-top: 7.5%;
+}
