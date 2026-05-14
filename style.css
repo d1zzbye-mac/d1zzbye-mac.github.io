@@ -37,7 +37,7 @@ header {
 }
 
 .restaurant-phone {
-    font-size: 3vw;
+    font-size: 2.5vw;
     font-weight: 550;
     color: black;
 }
@@ -67,7 +67,7 @@ header {
 
 .intro-text {
     font-weight: 600;
-    font-size: 3vw;
+    font-size: 2.5vw;
 
     color: #EDE9DF;
     margin: 0 1.5vw 0 3vw;
@@ -87,7 +87,7 @@ header {
 
 .main-text {
     font-weight: 600;
-    font-size: 3vw;
+    font-size: 2.5vw;
 
     color: black;
     padding: 7vmax 0 0;
@@ -101,7 +101,7 @@ header {
 
 .dish-description {
     font-weight: 550;
-    font-size: 2vw;
+    font-size: 1.5vw;
 
     color: black;
     margin: 0.5vmax;
@@ -115,7 +115,7 @@ header {
     color: black;
     background-color: transparent;
 
-    font-size: 3.5vw;
+    font-size: 3vw;
     margin: 0;
     padding: 0;
 
@@ -221,7 +221,7 @@ header {
 
 .menu-text {
     font-weight: 550;
-    font-size: 3vw;
+    font-size: 2.5vw;
     color: black;
     margin-top: 0;
     margin-bottom: 0;
@@ -230,7 +230,7 @@ header {
 }
 
 .open-menu {
-    font-size: 3vw;
+    font-size: 2.5vw;
     font-weight: 550;
 
     width: fit-content;
@@ -281,7 +281,7 @@ footer {
 
 .footer-info {
     font-weight: 600;
-    font-size: 2vw;
+    font-size: 1.5vw;
     display: inline-flex;
 
     padding: 2vmin 0 2vmin 3vw;
@@ -617,7 +617,7 @@ background: transparent;
 
     color: black;
 
-    font-size: 3vw;
+    font-size: 2.5vw;
     font-weight: 700;
     line-height: 1.15;
 }
