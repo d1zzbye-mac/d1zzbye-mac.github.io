@@ -73,8 +73,8 @@ const MENU_PDF_PATH = "menu.pdf";
 const PDFJS_CDN = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
 const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 
-const ZOOM_MIN = 0.5;
-const ZOOM_MAX = 3.0;
+const ZOOM_MIN = 0.3;
+const ZOOM_MAX = 4.0;
 const ZOOM_STEP = 0.25;
 
 /* Build modal DOM */
@@ -86,6 +86,7 @@ overlay.innerHTML = `
             <button class="pdf-zoom-btn" id="zoom-out" aria-label="Уменьшить">&#x2212;</button>
             <span class="pdf-zoom-label" id="zoom-label">100%</span>
             <button class="pdf-zoom-btn" id="zoom-in"  aria-label="Увеличить">&#x2b;</button>
+            <button class="pdf-zoom-btn" id="zoom-fit" aria-label="По размеру страницы">&#x2922;</button>
             <button class="pdf-close" id="pdf-close" aria-label="Закрыть меню">&#x2715;</button>
         </div>
         <div class="pdf-canvas-scroll" id="pdf-canvas-scroll">
@@ -101,11 +102,13 @@ const zoomLabel = overlay.querySelector("#zoom-label");
 const closeBtn = overlay.querySelector("#pdf-close");
 const zoomInBtn = overlay.querySelector("#zoom-in");
 const zoomOutBtn = overlay.querySelector("#zoom-out");
+const zoomFitBtn = overlay.querySelector("#zoom-fit");
 
 /* State */
 let pdfDoc = null;
+let baseScale = 1.0;
 let scale = 1.0;
-let renderQueue = Promise.resolve(); /* serial render — avoids canvas race */
+let renderQueue = Promise.resolve();
 let pdfLoaded = false;
 
 /* Helpers */
@@ -115,6 +118,16 @@ function setZoomLabel() {
 
 function clampScale(val) {
     return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, val));
+}
+
+function computeFitScale(page) {
+    const viewport = page.getViewport({ scale: 1.0 });
+    const scrollRect = canvasScroll.getBoundingClientRect();
+    const availW = scrollRect.width - 32;
+    const availH = scrollRect.height - 40;
+    const fitW = availW / viewport.width;
+    const fitH = availH / viewport.height;
+    return Math.min(fitW, fitH, ZOOM_MAX);
 }
 
 /* Render all pages at current scale */
@@ -134,11 +147,17 @@ async function renderAllPages() {
         promises.push(
             pdfDoc.getPage(pageNum).then((page) => {
                 const viewport = page.getViewport({ scale });
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = Math.floor(viewport.width * dpr);
+                canvas.height = Math.floor(viewport.height * dpr);
+                canvas.style.width = Math.floor(viewport.width) + "px";
+                canvas.style.height = Math.floor(viewport.height) + "px";
+
+                const ctx = canvas.getContext("2d");
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
                 return page.render({
-                    canvasContext: canvas.getContext("2d"),
+                    canvasContext: ctx,
                     viewport
                 }).promise;
             })
@@ -154,19 +173,31 @@ function applyZoom(newScale) {
     scale = clampScale(newScale);
     const ratio = scale / prev;
     const scrollTop = canvasScroll.scrollTop;
+    const scrollLeft = canvasScroll.scrollLeft;
 
     setZoomLabel();
 
     renderQueue = renderQueue.then(() => renderAllPages()).then(() => {
         canvasScroll.scrollTop = scrollTop * ratio;
+        canvasScroll.scrollLeft = scrollLeft * ratio;
     });
 
     zoomOutBtn.disabled = scale <= ZOOM_MIN;
     zoomInBtn.disabled = scale >= ZOOM_MAX;
 }
 
+function fitToPage() {
+    if (!pdfDoc)
+        return;
+    pdfDoc.getPage(1).then((page) => {
+        const fit = computeFitScale(page);
+        applyZoom(fit);
+    });
+}
+
 zoomInBtn.addEventListener("click",  () => applyZoom(scale + ZOOM_STEP));
 zoomOutBtn.addEventListener("click", () => applyZoom(scale - ZOOM_STEP));
+zoomFitBtn.addEventListener("click", fitToPage);
 
 /* Ctrl/Cmd + scroll wheel zoom */
 canvasScroll.addEventListener("wheel", (e) => {
@@ -176,19 +207,58 @@ canvasScroll.addEventListener("wheel", (e) => {
     applyZoom(scale + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
 }, { passive: false });
 
+/* Pinch-to-zoom (touch) */
+let pinchStartDist = 0;
+let pinchStartScale = 1;
+
+function getTouchDist(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+canvasScroll.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+        e.preventDefault();
+        pinchStartDist = getTouchDist(e.touches[0], e.touches[1]);
+        pinchStartScale = scale;
+    }
+}, { passive: false });
+
+canvasScroll.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2) {
+        e.preventDefault();
+        const dist = getTouchDist(e.touches[0], e.touches[1]);
+        const ratio = dist / pinchStartDist;
+        applyZoom(pinchStartScale * ratio);
+    }
+}, { passive: false });
+
+canvasScroll.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) {
+        pinchStartDist = 0;
+    }
+}, { passive: true });
+
 /* Open / close */
 async function openMenu() {
     overlay.classList.add("active");
     document.body.style.overflow = "hidden";
 
-    if (pdfLoaded)
+    if (pdfLoaded) {
+        canvasScroll.scrollTop = 0;
         return;
+    }
 
     const pdfjsLib = await import(PDFJS_CDN);
     pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
 
     pdfDoc = await pdfjsLib.getDocument(MENU_PDF_PATH).promise;
     pdfLoaded = true;
+
+    const firstPage = await pdfDoc.getPage(1);
+    baseScale = computeFitScale(firstPage);
+    scale = baseScale;
 
     setZoomLabel();
     await renderAllPages();
@@ -216,6 +286,16 @@ document.addEventListener("keydown", (e) => {
         applyZoom(scale + ZOOM_STEP);
     if (e.key === "-")
         applyZoom(scale - ZOOM_STEP);
+    if (e.key === "0")
+        fitToPage();
+});
+
+window.addEventListener("resize", () => {
+    if (overlay.classList.contains("active") && pdfDoc) {
+        pdfDoc.getPage(1).then((page) => {
+            baseScale = computeFitScale(page);
+        });
+    }
 });
 
 const galleryContainer = document.querySelector(".photo-gallery-container");
