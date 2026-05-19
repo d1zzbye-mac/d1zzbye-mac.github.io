@@ -489,10 +489,13 @@ background: transparent;
     display: block;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
     border-radius: 4px;
-    max-width: 100%;
-    height: auto;
 
     background: #fff;
+}
+
+.pdf-canvas-scroll.grabbing {
+    cursor: grabbing;
+    user-select: none;
 }
 
 @media only screen and (max-width: 768px) {

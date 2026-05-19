@@ -240,6 +240,36 @@ canvasScroll.addEventListener("touchend", (e) => {
     }
 }, { passive: true });
 
+/* Mouse drag-to-scroll when zoomed in */
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let scrollStartX = 0;
+let scrollStartY = 0;
+
+canvasScroll.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    scrollStartX = canvasScroll.scrollLeft;
+    scrollStartY = canvasScroll.scrollTop;
+    canvasScroll.classList.add("grabbing");
+});
+
+window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    canvasScroll.scrollLeft = scrollStartX - (e.clientX - dragStartX);
+    canvasScroll.scrollTop = scrollStartY - (e.clientY - dragStartY);
+});
+
+window.addEventListener("mouseup", () => {
+    if (!isDragging) return;
+    isDragging = false;
+    canvasScroll.classList.remove("grabbing");
+});
+
 /* Open / close */
 async function openMenu() {
     overlay.classList.add("active");
